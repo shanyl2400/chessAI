@@ -2,7 +2,6 @@ package process;
 
 import ai.AlphaBetaThreadTreePlayer;
 import ai.PieceLocationEvaluation;
-import ai.PieceValueEvaluation;
 import chess.PieceColor;
 import game.Game;
 import game.Interact;

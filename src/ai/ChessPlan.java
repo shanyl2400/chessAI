@@ -17,6 +17,10 @@ public class ChessPlan {
 		return piece.moveTo(allocation);
 	}
 
+	public Piece getPiece() {
+		return piece;
+	}
+
 	public String toString() {
 		return piece.getName() + " from " + piece.getAllocation() + ", to " + allocation;
 	}

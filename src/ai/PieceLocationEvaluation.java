@@ -11,16 +11,16 @@ import chess.Soldier;
 import game.Player;
 
 public class PieceLocationEvaluation implements Evaluation {
-	private static final int BOSS_VALUE = 100;
+	private static final int BOSS_VALUE = 1000;
 	private static final int CHARIOT_VALUE = 50;
-	private static final int KNIGHT_VALUE = 10;
-	private static final int KNIGHT_ENDING_VALUE = 14;
-	private static final int ELEPHANT_VALUE = 4;
-	private static final int GUARD_VALUE = 5;
-	private static final int CANNON_VALUE = 18;
-	private static final int CANNON_ENDING_VALUE = 6;
+	private static final int KNIGHT_VALUE = 20;
+	private static final int KNIGHT_ENDING_VALUE = 25;
+	private static final int ELEPHANT_VALUE = 8;
+	private static final int GUARD_VALUE = 8;
+	private static final int CANNON_VALUE = 30;
+	private static final int CANNON_ENDING_VALUE = 20;
 	private static final int SOLDIER_VALUE = 1;
-	private static final int SOLDIER_CROSS_VALUE = 4;
+	private static final int SOLDIER_CROSS_VALUE = 5;
 
 	@Override
 	public int evaluate(Player own, Player enemy) {
@@ -36,7 +36,7 @@ public class PieceLocationEvaluation implements Evaluation {
 			ownValue += getPieceValue(piece, pieceNum);
 			if (!piece.isInOwnSide()) {
 				// 打入敌军内部
-				ownValue += 1;
+				ownValue += 4;
 			}
 		}
 		for (Piece piece : enemy.getPieces()) {

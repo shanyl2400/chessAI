@@ -5,13 +5,15 @@ import java.util.List;
 import utils.Memo;
 import utils.MemoPiece;
 
-public abstract class Piece {
+public abstract class Piece implements Cloneable {
 	public static final int EMPTY_PIECE = 0;
 
 	protected Point allocation;
 	private boolean dead;
 	protected Board board;
 	protected PieceColor color;
+
+	private int memoId = 0;
 
 	public Piece(Board board, PieceColor color) {
 		this.board = board;
@@ -47,6 +49,14 @@ public abstract class Piece {
 		return dead;
 	}
 
+	public Board getBoard() {
+		return board;
+	}
+
+	public int getMemoId() {
+		return memoId;
+	}
+
 	// 是否在己方
 	public boolean isInOwnSide() {
 		if (this.allocation.getSphere() == this.color) {
@@ -65,15 +75,23 @@ public abstract class Piece {
 
 			setAllocation(allocation);
 			if (piece != null) {
-				// System.out.println("piece:" + this.getName() + " from " + lastAllocation +
-				// " to " + allocation + " eat:" + piece.getName() + " piece point " +
+				// System.out.println("piece:" + this.getName() + " id:" + this.getMemoId() + "
+				// from " + lastAllocation
+				// + " to " + allocation + " eat:" + piece.getName() + " piece point " +
 				// piece.allocation);
 				piece.setDead(true);
 			}
 
 			// 记录
-			Memo.getMemo().putMemo(new MemoPiece(this, lastAllocation, piece));
+			if (memoId <= 0) {
+				Memo.getMemo().putMemo(new MemoPiece(this, lastAllocation, piece));
+			} else {
+				Memo.getMemo(memoId).putMemo(new MemoPiece(this, lastAllocation, piece));
+			}
+
 			return piece;
+		} else {
+			System.out.println("can't move " + this.getName() + ", " + this.getAllocation() + "," + this.isDead());
 		}
 		return null;
 	}
@@ -84,5 +102,23 @@ public abstract class Piece {
 
 	public void setDead(boolean dead) {
 		this.dead = dead;
+	}
+
+	public void setMemoId(int memoId) {
+		this.memoId = memoId;
+	}
+
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+
+	public String toString() {
+		return getColor() + ":" + getName() + "=>" + getAllocation();
+	}
+
+	public Object clone(int id) throws CloneNotSupportedException {
+		Piece piece = (Piece) super.clone();
+		piece.setMemoId(id);
+		return (Object) piece;
 	}
 }

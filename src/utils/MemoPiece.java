@@ -26,8 +26,15 @@ public class MemoPiece {
 		return eatPiece;
 	}
 
+	public Piece getPiece() {
+		return piece;
+	}
+
 	public Point getLastAllocation() {
 		return lastAllocation;
 	}
 
+	public String toString() {
+		return getPiece().toString() + " last:" + getLastAllocation();
+	}
 }

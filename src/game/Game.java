@@ -3,6 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
+import ai.AlphaBetaThreadTreePlayer;
 import ai.AlphaBetaTreePlayer;
 import ai.MinMaxTreePlayer;
 import ai.PieceLocationEvaluation;
@@ -27,37 +28,19 @@ public class Game {
 
 	public Game() {
 		board = new Board();
-		// TODO: initialize players
-		// set enemy
-		players[0] = new MinMaxTreePlayer(board, PieceColor.Red, new PieceValueEvaluation(), 4);
-		players[1] = new MinMaxTreePlayer(board, PieceColor.Black, new PieceValueEvaluation(), 4);
+		board.initPieces(PieceColor.Red);
+		board.initPieces(PieceColor.Black);
+	}
+
+	public void setPlayer(Player red, Player black) {
+		players[0] = red;
+		players[1] = black;
+
 		players[0].setEnemy(players[1]);
 		players[1].setEnemy(players[0]);
 
-		// boolean flag = true;
-		// boolean flag2 = true;
-		// for (Piece piece : players[0].pieces) {
-		// piece.setDead(true);
-		// if (piece.getCode() == Boss.PIECE_VALUE) {
-		// piece.setDead(false);
-		// }
-		// if (piece.getCode() == Knight.PIECE_VALUE && flag2) {
-		// piece.setDead(false);
-		// piece.setAllocation(new Point(5, 5));
-		// flag2 = false;
-		// }
-		// }
-		// for (Piece piece : players[1].pieces) {
-		// piece.setDead(true);
-		// if (piece.getCode() == Boss.PIECE_VALUE) {
-		// piece.setDead(false);
-		// }
-		// if (piece.getCode() == Chariot.PIECE_VALUE && flag) {
-		// piece.setDead(false);
-		// piece.setAllocation(new Point(4, 4));
-		// flag = false;
-		// }
-		// }
+		players[0].setPieces(board.getPiecesByColor(players[0].getColor()));
+		players[1].setPieces(board.getPiecesByColor(players[1].getColor()));
 	}
 
 	public static void main(String args[]) {
@@ -94,7 +77,9 @@ public class Game {
 		interact.init(board.getPieces());
 		do {
 			// 轮流落子
+			System.out.println("<<<<第" + (step + 1) + "手>>>>");
 			Piece piece = players[step % 2].go();
+			System.out.println(">>>思考结束<<<");
 
 			interact.newStep(step + 1, board.getPieces());
 

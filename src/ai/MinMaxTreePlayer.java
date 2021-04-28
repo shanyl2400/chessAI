@@ -13,9 +13,10 @@ import utils.Memo;
 public class MinMaxTreePlayer extends Player {
 	private Evaluation evaluation;
 	private int depth;
+	private int count;
 
-	public MinMaxTreePlayer(Board board, PieceColor color, Evaluation evaluation, int depth) {
-		super(board, color);
+	public MinMaxTreePlayer(PieceColor color, Evaluation evaluation, int depth) {
+		super(color);
 		this.depth = depth;
 		this.evaluation = evaluation;
 		// TODO Auto-generated constructor stub
@@ -34,6 +35,7 @@ public class MinMaxTreePlayer extends Player {
 
 	private ChessPlan minMax() {
 		int best = Integer.MIN_VALUE;
+		count = 0;
 		List<ChessPlan> plans = generateChessPlans(this);
 		ChessPlan res = null;
 		for (ChessPlan plan : plans) {
@@ -46,6 +48,7 @@ public class MinMaxTreePlayer extends Player {
 				res = plan;
 			}
 		}
+		System.out.println("count:" + count);
 		System.out.println("best:" + best);
 
 		return res;
@@ -55,6 +58,7 @@ public class MinMaxTreePlayer extends Player {
 		int best = Integer.MIN_VALUE;
 		int value = 0;
 		if (depth <= 0) {
+			count++;
 			return evaluation.evaluate(this, enemy);
 		}
 
@@ -74,6 +78,7 @@ public class MinMaxTreePlayer extends Player {
 		int best = Integer.MAX_VALUE;
 		int value = 0;
 		if (depth <= 0) {
+			count++;
 			return evaluation.evaluate(this, enemy);
 		}
 
